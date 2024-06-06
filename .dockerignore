@@ -1,6 +1,6 @@
 /tmp
 /builds
-.env
+.env.builder
 #
 /etc
 .gitignore
