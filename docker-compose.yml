@@ -24,6 +24,8 @@ services:
     environment:
       - HTTP_PROXY=http://proxy:3128
       - http_proxy=http://proxy:3128
+      - HTTPS_PROXY=http://proxy:3128
+      - https_proxy=http://proxy:3128
     privileged: true
     pull_policy: never
     volumes:
