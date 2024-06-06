@@ -14,9 +14,32 @@ services:
   proxy:
     image: ubuntu/squid
     volumes:
-      - proxy:/var/spool/squid
+      - proxy_cache:/var/cache/squid
+      - proxy_logs:/var/log/squid
     environment:
       - TZ=UTC
+    configs:
+      - source: proxy
+        target: /etc/squid/conf.d/zz_custom.conf
 
 volumes:
+  proxy_cache:
+  proxy_logs:
+
+configs:
   proxy:
+    content: |
+      maximum_object_size 6 GB
+      cache_dir ufs /var/cache/squid 30720 16 256
+      #
+      cache_mem 0 MB
+      maximum_object_size_in_memory 0 KB
+      memory_cache_mode disk
+      #
+      cache_replacement_policy heap LFUDA
+      range_offset_limit -1
+      quick_abort_min -1 KB
+      # refresh pattern for debs and udebs
+      refresh_pattern -i .*\.deb    129600 100% 129600
+      refresh_pattern -i .*\.udeb   129600 100% 129600
+      refresh_pattern -i .*\.tar.gz 129600 100% 129600
