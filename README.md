@@ -9,18 +9,16 @@ As Ubuntu Sway is built with the Debian version of live-build, not the Ubuntu pa
 The following example uses Docker and assumes you have Docker correctly installed and set up:
 
 Clone this project & cd into it:
-
-    git clone https://github.com/Ubuntu-Sway/iso-builder && cd iso-builder
+```shell
+git clone https://github.com/dmitriysafronov/iso-builder && cd iso-builder
+```
 
 Configure the channel in the etc/terraform.conf (unstable, stable).
 
 Run the build:
-
-    docker run --privileged -i -v /proc:/proc \
-        -v ${PWD}:/working_dir \
-        -w /working_dir \
-        debian:latest \
-        /bin/bash -s etc/terraform.conf < build.sh
+```shell
+docker compose up --build
+```
 
 When done, your image will be in the builds folder.
 
