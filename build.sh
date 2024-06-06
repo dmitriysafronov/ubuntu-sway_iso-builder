@@ -98,11 +98,11 @@ build () {
     OUTPUT_DIR="$BUILDS_DIR/$BUILD_ARCH"
     mkdir -p "$OUTPUT_DIR"
     if [ "$CHANNEL" == dev ]; then
-      FNAME="ubuntusway-$VERSION-$CHANNEL-$YYYYMMDD-$OUTPUT_SUFFIX-$ARCH"
+      FNAME="$OUTPUT_PREFIX-$VERSION-$CHANNEL-$YYYYMMDD-$OUTPUT_SUFFIX-$ARCH"
     elif [ "$CHANNEL" == stable ] && [ "BETA" == true ]; then
-      FNAME="ubuntusway-$VERSION-beta-$OUTPUT_SUFFIX-$ARCH"
+      FNAME="$OUTPUT_PREFIX-$VERSION-beta-$OUTPUT_SUFFIX-$ARCH"
     elif [ "$CHANNEL" == stable ] && [ "BETA" == false ]; then
-      FNAME="ubuntusway-$VERSION-$OUTPUT_SUFFIX-$ARCH"
+      FNAME="$OUTPUT_PREFIX-$VERSION-$OUTPUT_SUFFIX-$ARCH"
     else
       echo -e "Error: invalid channel name!"
     fi
@@ -116,4 +116,3 @@ build () {
 rm -rf "$BUILDS_DIR"
 
 build "$ARCH"
-
