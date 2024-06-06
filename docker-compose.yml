@@ -7,3 +7,6 @@ services:
       - ./:/workspace/
     working_dir: /workspace
     privileged: true
+    env_file:
+      - path: .env.builder
+        required: false
