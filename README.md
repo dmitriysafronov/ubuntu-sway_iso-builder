@@ -17,7 +17,7 @@ Configure the channel in the etc/terraform.conf (unstable, stable).
 
 Run the build:
 ```shell
-docker compose up --build
+docker compose up --build --abort-on-container-exit 
 ```
 
 When done, your image will be in the builds folder.
