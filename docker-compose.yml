@@ -1,9 +1,47 @@
-services:
+configs:
+  proxy:
+    content: |
+      maximum_object_size 6 GB
+      cache_dir ufs /var/spool/squid 30720 16 256
+      #
+      cache_mem 0 MB
+      maximum_object_size_in_memory 0 KB
+      memory_cache_mode disk
+      #
+      cache_replacement_policy heap LFUDA
+      range_offset_limit -1
+      quick_abort_min -1 KB
+      # refresh pattern for debs and udebs
+      refresh_pattern -i .*\.deb    129600 100% 129600
+      refresh_pattern -i .*\.udeb   129600 100% 129600
+      refresh_pattern -i .*\.tar.gz 129600 100% 129600
 
+services:
   builder:
     build: .
+    depends_on:
+      - proxy
+    environment:
+      - HTTP_PROXY=http://proxy:3128
+      - http_proxy=http://proxy:3128
+    privileged: true
     pull_policy: never
     volumes:
       - ./:/workspace/
     working_dir: /workspace
+
+  proxy:
+    environment:
+      - TZ=UTC
+    configs:
+      - source: proxy
+        target: /etc/squid/conf.d/zz_proxy.conf
+    image: ubuntu/squid
     privileged: true
+    volumes:
+      - proxy_logs:/var/log/squid
+      - proxy_spool:/var/spool/squid
+
+volumes:
+  proxy_logs:
+  proxy_spool:
