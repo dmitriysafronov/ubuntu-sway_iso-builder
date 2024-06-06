@@ -7,3 +7,16 @@ services:
       - ./:/workspace/
     working_dir: /workspace
     privileged: true
+    environment:
+      - HTTP_PROXY=http://proxy:3128
+      - http_proxy=http://proxy:3128
+
+  proxy:
+    image: ubuntu/squid
+    volumes:
+      - proxy:/var/spool/squid
+    environment:
+      - TZ=UTC
+
+volumes:
+  proxy:
